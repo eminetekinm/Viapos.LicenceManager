@@ -19,6 +19,7 @@ namespace Viapos.LicenceManager.LicenceInformations.Tables
         public string UserName { get; set; }
         public string Company { get; set; }
         public int LicenseCount { get; set; }
+
         public List<SystemInfo> SystemInfos { get; set; }
         public List<Module> Modules { get; set; }
     }
