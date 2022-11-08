@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Viapos.LicenceManager.API.Migrations
 {
-    public partial class firstMig : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,8 @@ namespace Viapos.LicenceManager.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LicenseType = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicenseCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -25,60 +25,60 @@ namespace Viapos.LicenceManager.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Module",
+                name: "Modules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ModuleTypeEnum = table.Column<int>(type: "int", nullable: false),
                     LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Module", x => x.Id);
+                    table.PrimaryKey("PK_Modules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Module_Licenses_LicenseId",
+                        name: "FK_Modules_Licenses_LicenseId",
                         column: x => x.LicenseId,
                         principalTable: "Licenses",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SystemInfo",
+                name: "SystemInfos",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InfoType = table.Column<int>(type: "int", nullable: false),
-                    Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Info = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemInfo", x => x.InfoType);
+                    table.PrimaryKey("PK_SystemInfos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SystemInfo_Licenses_LicenseId",
+                        name: "FK_SystemInfos_Licenses_LicenseId",
                         column: x => x.LicenseId,
                         principalTable: "Licenses",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Module_LicenseId",
-                table: "Module",
+                name: "IX_Modules_LicenseId",
+                table: "Modules",
                 column: "LicenseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemInfo_LicenseId",
-                table: "SystemInfo",
+                name: "IX_SystemInfos_LicenseId",
+                table: "SystemInfos",
                 column: "LicenseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Module");
+                name: "Modules");
 
             migrationBuilder.DropTable(
-                name: "SystemInfo");
+                name: "SystemInfos");
 
             migrationBuilder.DropTable(
                 name: "Licenses");

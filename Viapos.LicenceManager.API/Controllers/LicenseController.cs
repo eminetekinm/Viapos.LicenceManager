@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Viapos.LicenceManager.LicenceInformations.Tables;
+using Viapos.LicenceManager.API.Data;
+using Viapos.LicenceManager.API.Data.Tables;
 
 namespace Viapos.LicenceManager.API.Controllers
 {
@@ -10,17 +11,25 @@ namespace Viapos.LicenceManager.API.Controllers
     [ApiController]
     public class LicenseController : ControllerBase
     {
-        [HttpGet]
-        public string GetLisence()
+        private LicenseContext _context;
+        public LicenseController(LicenseContext context)
         {
-            License license = new License
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Emine",
-                Company="Viapos Yazılım",
+            _context = context;
+        }
 
-            };
-          return  JsonConvert.SerializeObject(license);
+        [HttpGet]
+        public string GetLisence(Guid id)
+        {
+            if (_context.Licenses.Any(c=>c.Id==id))
+            {
+                return JsonConvert.SerializeObject(
+               _context.Licenses.FirstOrDefault(c => c.Id == id));
+
+            }
+            else
+            {
+                return "LİSAS YOK";
+            }
 
         }
     }

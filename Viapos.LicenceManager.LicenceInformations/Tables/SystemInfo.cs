@@ -10,7 +10,7 @@ namespace Viapos.LicenceManager.LicenceInformations.Tables
 {
     public class SystemInfo
     {
-        [Key]
+       
         public SystemInfoEnum InfoType  { get; set; }
         public string Info { get; set; }
     }

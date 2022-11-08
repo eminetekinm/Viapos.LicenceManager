@@ -12,8 +12,8 @@ using Viapos.LicenceManager.API.Data;
 namespace Viapos.LicenceManager.API.Migrations
 {
     [DbContext(typeof(LicenseContext))]
-    [Migration("20221031201250_firstMig")]
-    partial class firstMig
+    [Migration("20221108190611_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,13 +24,14 @@ namespace Viapos.LicenceManager.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.License", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.License", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Company")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LicenseCount")
@@ -40,6 +41,7 @@ namespace Viapos.LicenceManager.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -47,13 +49,11 @@ namespace Viapos.LicenceManager.API.Migrations
                     b.ToTable("Licenses");
                 });
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.Module", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.Module", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("LicenseId")
                         .HasColumnType("uniqueidentifier");
@@ -65,42 +65,47 @@ namespace Viapos.LicenceManager.API.Migrations
 
                     b.HasIndex("LicenseId");
 
-                    b.ToTable("Module");
+                    b.ToTable("Modules");
                 });
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.SystemInfo", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.SystemInfo", b =>
                 {
-                    b.Property<int>("InfoType")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Info")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoType")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("LicenseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("InfoType");
+                    b.HasKey("Id");
 
                     b.HasIndex("LicenseId");
 
-                    b.ToTable("SystemInfo");
+                    b.ToTable("SystemInfos");
                 });
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.Module", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.Module", b =>
                 {
-                    b.HasOne("Viapos.LicenceManager.LicenceInformations.Tables.License", null)
+                    b.HasOne("Viapos.LicenceManager.API.Data.Tables.License", null)
                         .WithMany("Modules")
                         .HasForeignKey("LicenseId");
                 });
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.SystemInfo", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.SystemInfo", b =>
                 {
-                    b.HasOne("Viapos.LicenceManager.LicenceInformations.Tables.License", null)
+                    b.HasOne("Viapos.LicenceManager.API.Data.Tables.License", null)
                         .WithMany("SystemInfos")
                         .HasForeignKey("LicenseId");
                 });
 
-            modelBuilder.Entity("Viapos.LicenceManager.LicenceInformations.Tables.License", b =>
+            modelBuilder.Entity("Viapos.LicenceManager.API.Data.Tables.License", b =>
                 {
                     b.Navigation("Modules");
 

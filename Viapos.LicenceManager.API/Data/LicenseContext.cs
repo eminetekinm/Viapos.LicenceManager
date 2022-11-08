@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Viapos.LicenceManager.LicenceInformations.Tables;
+using Viapos.LicenceManager.API.Data.Tables;
 
 namespace Viapos.LicenceManager.API.Data
 {
@@ -11,5 +11,7 @@ namespace Viapos.LicenceManager.API.Data
         }
 
        public DbSet<License> Licenses { get; set; }
+       public DbSet<Module> Modules { get; set; }
+       public DbSet<SystemInfo> SystemInfos { get; set; }
     }
 }
