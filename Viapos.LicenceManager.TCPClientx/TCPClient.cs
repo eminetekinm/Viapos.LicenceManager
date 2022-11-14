@@ -17,7 +17,7 @@ namespace Viapos.LicenceManager.TCPClientx
        public WatsonTcpClient client;
         public TCPClient()
         {
-            client = new WatsonTcpClient("192.168.1.127", 4345);
+            client = new WatsonTcpClient("192.168.1.37", 4345);
             //client.MessageReceived += Message_Received;
             
         }

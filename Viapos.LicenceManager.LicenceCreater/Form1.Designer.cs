@@ -42,6 +42,7 @@
             this.chkServerButton = new DevExpress.XtraEditors.CheckButton();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLisansCount = new DevExpress.XtraEditors.SpinEdit();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUserName.Properties)).BeginInit();
@@ -203,11 +204,21 @@
             this.txtLisansCount.Size = new System.Drawing.Size(125, 24);
             this.txtLisansCount.TabIndex = 10;
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(348, 380);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(201, 57);
+            this.simpleButton1.TabIndex = 11;
+            this.simpleButton1.Text = "simpleButton1";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 479);
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.txtLisansCount);
             this.Controls.Add(this.chkServerButton);
             this.Controls.Add(this.chkClientButton);
@@ -248,6 +259,7 @@
         private DevExpress.XtraEditors.CheckButton chkServerButton;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.SpinEdit txtLisansCount;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }
 

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Viapos.LicenceManager.LicenceInformations.Enum;
+using Viapos.LicenceManager.LicenceInformations.Maneger;
 using Viapos.LicenceManager.LicenceInformations.Tables;
 
 using Viapos.LicenceManager.LicenceInformations.Tools;
@@ -26,7 +27,7 @@ namespace Viapos.LicenceManager.LicenceCreater
             InitializeComponent();
         }
 
-      
+
         private void chkClientButton_CheckedChanged(object sender, EventArgs e)
         {
             if (chkClientButton.Checked)
@@ -113,6 +114,14 @@ namespace Viapos.LicenceManager.LicenceCreater
             {
                 File.WriteAllText(dialog.FileName, EncrpytionTools.Encyrpt(json));
             }
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            LicenceConfirmation confirmation = new LicenceConfirmation();
+           var item= confirmation.GetOnlineLicense(Guid.Parse("b06b90cd-e155-45f6-9ec0-294572ed79db"));
+
+            MessageBox.Show(item);
         }
     }
 }

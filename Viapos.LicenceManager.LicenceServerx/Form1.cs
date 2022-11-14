@@ -23,7 +23,7 @@ namespace Viapos.LicenceManager.LicenceServerx
         public Form1()
         {
             InitializeComponent();
-            server = new WatsonTcpServer("192.168.1.127", 4345);
+            server = new WatsonTcpServer("192.168.1.37", 4345);
             server.ClientConnected += Client_Connected;
             server.ClientDisconnected += Client_Disconnected;
             server.MessageReceived += Message_Receiverd;

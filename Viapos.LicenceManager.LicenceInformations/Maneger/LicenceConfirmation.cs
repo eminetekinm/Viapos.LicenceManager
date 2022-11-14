@@ -1,5 +1,7 @@
 ﻿
 using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -102,6 +104,16 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
         public int LicenseCount()
         {
             return license.LicenseCount;
+        }
+        public string GetOnlineLicense(Guid id)
+        {
+            RestClient client = new RestClient("http://localhost:5051");
+            RestRequest request = new RestRequest("api / license / getlisence");
+            request.AddParameter("id", id);
+
+            var response = client.Get(request);
+            string content = response.Content;
+            return content;
         }
 
     }

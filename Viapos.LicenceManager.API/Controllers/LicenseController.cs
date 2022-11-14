@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Viapos.LicenceManager.API.Data;
 using Viapos.LicenceManager.API.Data.Tables;
+using Viapos.LicenceManager.LicenceInformations.Tools;
 
 namespace Viapos.LicenceManager.API.Controllers
 {
@@ -22,8 +23,8 @@ namespace Viapos.LicenceManager.API.Controllers
         {
             if (_context.Licenses.Any(c=>c.Id==id))
             {
-                return JsonConvert.SerializeObject(
-               _context.Licenses.FirstOrDefault(c => c.Id == id));
+                return EncrpytionTools.Encyrpt(JsonConvert.SerializeObject(
+               _context.Licenses.FirstOrDefault(c => c.Id == id))) ;
 
             }
             else
