@@ -29,7 +29,7 @@ namespace Viapos.LicenceManager.API.Controllers
             }
             else
             {
-                return "LİSAS YOK";
+                return "LİSANS YOK";
             }
 
         }

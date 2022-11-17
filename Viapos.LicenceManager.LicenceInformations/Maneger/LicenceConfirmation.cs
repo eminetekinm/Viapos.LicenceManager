@@ -108,7 +108,7 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
         public string GetOnlineLicense(Guid id)
         {
             RestClient client = new RestClient("http://localhost:5051");
-            RestRequest request = new RestRequest("api / license / getlisence");
+            RestRequest request = new RestRequest("api/license/getlisence");
             request.AddParameter("id", id);
 
             var response = client.Get(request);
