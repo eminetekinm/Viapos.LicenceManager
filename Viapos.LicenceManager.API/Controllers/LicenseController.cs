@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Viapos.LicenceManager.API.Data;
-using Viapos.LicenceManager.API.Data.Tables;
+
+using Viapos.LicenceManager.LicenceInformations.Enum;
+using Viapos.LicenceManager.LicenceInformations.Tables;
 using Viapos.LicenceManager.LicenceInformations.Tools;
 
 namespace Viapos.LicenceManager.API.Controllers
@@ -21,15 +23,21 @@ namespace Viapos.LicenceManager.API.Controllers
         [HttpGet]
         public string GetLisence(Guid id)
         {
-            if (_context.Licenses.Any(c=>c.Id==id))
+            APIResponseResult result = new APIResponseResult();
+
+            if (_context.Licenses.Any(c => c.Id == id))
             {
-                return EncrpytionTools.Encyrpt(JsonConvert.SerializeObject(
-               _context.Licenses.FirstOrDefault(c => c.Id == id))) ;
+                result.ReturnType = ReturnType.Confirm;
+                result.value = JsonConvert.SerializeObject(
+               _context.Licenses.FirstOrDefault(c => c.Id == id));
+                return EncrpytionTools.Encyrpt(JsonConvert.SerializeObject(result));
 
             }
             else
             {
-                return "LİSANS YOK";
+                result.ReturnType = ReturnType.Error;
+                result.value = "LİSANS BULUNAMADI";
+                return EncrpytionTools.Encyrpt(JsonConvert.SerializeObject(result));
             }
 
         }

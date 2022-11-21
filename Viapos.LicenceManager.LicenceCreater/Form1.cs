@@ -15,6 +15,7 @@ using Viapos.LicenceManager.LicenceInformations.Maneger;
 using Viapos.LicenceManager.LicenceInformations.Tables;
 
 using Viapos.LicenceManager.LicenceInformations.Tools;
+using License = Viapos.LicenceManager.LicenceInformations.Tables.License;
 
 namespace Viapos.LicenceManager.LicenceCreater
 {
@@ -52,6 +53,7 @@ namespace Viapos.LicenceManager.LicenceCreater
             lisans.Id = Guid.NewGuid();
             lisans.UserName = txtUserName.Text;
             lisans.Company = txtCompany.Text;
+            lisans.OnlineLicense = (OnlineLicenseControl)comboBoxEdit1.SelectedIndex;
             if (chkClientButton.Checked)
             {
                 lisans.LicenseCount = 1;
@@ -119,9 +121,16 @@ namespace Viapos.LicenceManager.LicenceCreater
         private void simpleButton1_Click(object sender, EventArgs e)
         {
             LicenceConfirmation confirmation = new LicenceConfirmation();
-           var item= confirmation.GetOnlineLicense(Guid.Parse("b06b90cd-e155-45f6-9ec0-294572ed79db"));
+           License result= confirmation.GetOnlineLicense(Guid.Parse("b06b90cd-e155-45f6-9ec0-294572ed79db"));
 
-            MessageBox.Show(item);
+            if (result!=null) MessageBox.Show(result.UserName);
+            
+           
+        }
+
+        private void comboBoxEdit1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

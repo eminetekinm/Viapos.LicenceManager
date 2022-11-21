@@ -24,6 +24,37 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
                 string json = EncrpytionTools.Decyrpt(File.ReadAllText(Application.StartupPath + "\\license.lic"));
                 license = JsonConvert.DeserializeObject<Tables.License>(json);
                 LoadSystemInfo();
+                int onlineConfirmedInfo = 0;
+                bool onlineLicenseError = false;
+                if (license.OnlineLicense != OnlineLicenseControl.None)
+                {
+                    try
+                    {
+                        License onlineLicense = GetOnlineLicense(license.Id);
+
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            var infoType = license.SystemInfos[i].InfoType;
+
+                            if (onlineLicense.SystemInfos[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
+                            {
+                                onlineConfirmedInfo += 1;
+                            }
+                        }
+                    }
+
+                    catch (Exception)
+                    {
+
+                        onlineLicenseError = true;
+
+                    }
+
+
+                }
+
+
                 int confirmedInfo = 0;
                 for (int i = 0; i < 6; i++)
                 {
@@ -36,7 +67,30 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
                 }
                 if (confirmedInfo > 3)
                 {
+                    if (license.OnlineLicense != OnlineLicenseControl.Required && onlineLicenseError)
+                    {
+                        confirmLicense = false;
+                        return;
+
+                    }
+                    if (license.OnlineLicense != OnlineLicenseControl.None && !onlineLicenseError)
+                    {
+                        if (onlineConfirmedInfo > 3)
+                        {
+                            confirmLicense = true;
+                        }
+                        else
+                        {
+                            confirmLicense = false;
+                            return;
+                        }
+
+                    }
+
+
                     confirmLicense = true;
+
+
                 }
             }
 
@@ -105,15 +159,28 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
         {
             return license.LicenseCount;
         }
-        public string GetOnlineLicense(Guid id)
+        public License GetOnlineLicense(Guid id)
         {
             RestClient client = new RestClient("http://localhost:5051");
             RestRequest request = new RestRequest("api/license/getlisence");
             request.AddParameter("id", id);
 
             var response = client.Get(request);
-            string content = response.Content;
-            return content;
+            //string content = response.Content;
+            var result = JsonConvert.DeserializeObject<APIResponseResult>(EncrpytionTools.Decyrpt(response.Content.Trim('\"')));
+
+            if (result.ReturnType == ReturnType.Error)
+            {
+                MessageBox.Show(result.value.ToString());
+
+
+            }
+            else if (result.ReturnType == ReturnType.Confirm)
+            {
+                License returnLicense = JsonConvert.DeserializeObject<License>(result.value.ToString());
+                return returnLicense;
+            }
+            return null;
         }
 
     }

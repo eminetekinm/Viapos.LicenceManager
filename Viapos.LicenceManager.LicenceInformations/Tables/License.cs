@@ -16,6 +16,7 @@ namespace Viapos.LicenceManager.LicenceInformations.Tables
         }
         public Guid Id { get; set; }
         public LicenseType LicenseType { get; set; }
+        public OnlineLicenseControl OnlineLicense { get; set; }
         public string UserName { get; set; }
         public string Company { get; set; }
         public int LicenseCount { get; set; }

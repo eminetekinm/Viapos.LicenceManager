@@ -42,13 +42,15 @@
             this.chkServerButton = new DevExpress.XtraEditors.CheckButton();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLisansCount = new DevExpress.XtraEditors.SpinEdit();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUserName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompany.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedListBoxControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLisansCount.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -133,9 +135,9 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "Fatura"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "İrsaliye"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(null, "Kasa")});
-            this.checkedListBoxControl1.Location = new System.Drawing.Point(35, 207);
+            this.checkedListBoxControl1.Location = new System.Drawing.Point(35, 252);
             this.checkedListBoxControl1.Name = "checkedListBoxControl1";
-            this.checkedListBoxControl1.Size = new System.Drawing.Size(241, 196);
+            this.checkedListBoxControl1.Size = new System.Drawing.Size(241, 151);
             this.checkedListBoxControl1.TabIndex = 7;
             // 
             // button1
@@ -204,21 +206,38 @@
             this.txtLisansCount.Size = new System.Drawing.Size(125, 24);
             this.txtLisansCount.TabIndex = 10;
             // 
-            // simpleButton1
+            // label5
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(348, 380);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(201, 57);
-            this.simpleButton1.TabIndex = 11;
-            this.simpleButton1.Text = "simpleButton1";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.label5.BackColor = System.Drawing.Color.White;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label5.Location = new System.Drawing.Point(32, 203);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(111, 22);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Online Kontrol";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBoxEdit1
+            // 
+            this.comboBoxEdit1.Location = new System.Drawing.Point(151, 203);
+            this.comboBoxEdit1.Name = "comboBoxEdit1";
+            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxEdit1.Properties.Items.AddRange(new object[] {
+            "Kontrol Yok",
+            "Opsiyonel",
+            "Zorunlu"});
+            this.comboBoxEdit1.Size = new System.Drawing.Size(125, 22);
+            this.comboBoxEdit1.TabIndex = 12;
+            this.comboBoxEdit1.SelectedIndexChanged += new System.EventHandler(this.comboBoxEdit1_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 479);
-            this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.comboBoxEdit1);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.txtLisansCount);
             this.Controls.Add(this.chkServerButton);
             this.Controls.Add(this.chkClientButton);
@@ -241,6 +260,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtCompany.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedListBoxControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLisansCount.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -259,7 +279,8 @@
         private DevExpress.XtraEditors.CheckButton chkServerButton;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.SpinEdit txtLisansCount;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private System.Windows.Forms.Label label5;
+        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
     }
 }
 

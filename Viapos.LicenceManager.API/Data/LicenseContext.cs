@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Viapos.LicenceManager.API.Data.Tables;
+using Viapos.LicenceManager.LicenceInformations.Tables;
 
 namespace Viapos.LicenceManager.API.Data
 {

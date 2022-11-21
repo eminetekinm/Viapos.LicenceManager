@@ -85,10 +85,13 @@
     <Compile Include="Enum\LicenseType.cs" />
     <Compile Include="Enum\MessageType.cs" />
     <Compile Include="Enum\ModuleTypeEnum.cs" />
+    <Compile Include="Enum\OnlineLicenseControl.cs" />
+    <Compile Include="Enum\ReturnType.cs" />
     <Compile Include="Enum\SystemInfoEnum.cs" />
     <Compile Include="Maneger\LicenceConfirmation.cs" />
     <Compile Include="Maneger\SystemInformations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tables\APIResponseResult.cs" />
     <Compile Include="Tables\BaseBoard.cs" />
     <Compile Include="Tables\Bios.cs" />
     <Compile Include="Tables\Cpu.cs" />
