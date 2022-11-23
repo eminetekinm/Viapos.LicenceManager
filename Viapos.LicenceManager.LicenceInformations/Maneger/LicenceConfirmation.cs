@@ -35,9 +35,9 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
 
                         for (int i = 0; i < 6; i++)
                         {
-                            var infoType = license.SystemInfos[i].InfoType;
+                            var infoType = license.SystemInfos.ToList()[i].InfoType;
 
-                            if (onlineLicense.SystemInfos[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
+                            if (onlineLicense.SystemInfos.ToList()[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
                             {
                                 onlineConfirmedInfo += 1;
                             }
@@ -58,9 +58,9 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
                 int confirmedInfo = 0;
                 for (int i = 0; i < 6; i++)
                 {
-                    var infoType = license.SystemInfos[i].InfoType;
+                    var infoType = license.SystemInfos.ToList()[i].InfoType;
 
-                    if (license.SystemInfos[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
+                    if (license.SystemInfos.ToList()[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
                     {
                         confirmedInfo += 1;
                     }

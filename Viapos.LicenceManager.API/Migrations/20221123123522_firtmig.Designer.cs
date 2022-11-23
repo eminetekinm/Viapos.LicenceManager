@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Viapos.LicenceManager.API.Data;
 
@@ -11,9 +12,10 @@ using Viapos.LicenceManager.API.Data;
 namespace Viapos.LicenceManager.API.Migrations
 {
     [DbContext(typeof(LicenseContext))]
-    partial class LicenseContextModelSnapshot : ModelSnapshot
+    [Migration("20221123123522_firtmig")]
+    partial class firtmig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,8 +81,8 @@ namespace Viapos.LicenceManager.API.Migrations
 
                     b.Property<string>("Info")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("InfoType")
                         .HasColumnType("int");

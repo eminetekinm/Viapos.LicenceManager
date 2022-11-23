@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Viapos.LicenceManager.API.Migrations
 {
-    public partial class initial : Migration
+    public partial class firtmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,9 @@ namespace Viapos.LicenceManager.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LicenseType = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OnlineLicense = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LicenseCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -29,8 +30,8 @@ namespace Viapos.LicenceManager.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ModuleTypeEnum = table.Column<int>(type: "int", nullable: false),
-                    LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ModuleTypeEnum = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +40,8 @@ namespace Viapos.LicenceManager.API.Migrations
                         name: "FK_Modules_Licenses_LicenseId",
                         column: x => x.LicenseId,
                         principalTable: "Licenses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,9 +49,9 @@ namespace Viapos.LicenceManager.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InfoType = table.Column<int>(type: "int", nullable: false),
-                    Info = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Info = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,7 +60,8 @@ namespace Viapos.LicenceManager.API.Migrations
                         name: "FK_SystemInfos_Licenses_LicenseId",
                         column: x => x.LicenseId,
                         principalTable: "Licenses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

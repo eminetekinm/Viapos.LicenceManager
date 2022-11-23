@@ -104,6 +104,7 @@
     <Compile Include="Tables\OSystem.cs" />
     <Compile Include="Tables\SystemInfo.cs" />
     <Compile Include="Tools\EncrpytionTools.cs" />
+    <Compile Include="Tools\Md5Hash.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
