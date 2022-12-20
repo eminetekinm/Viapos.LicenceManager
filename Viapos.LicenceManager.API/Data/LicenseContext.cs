@@ -7,7 +7,7 @@ namespace Viapos.LicenceManager.API.Data
     {
         public LicenseContext(DbContextOptions<LicenseContext> options):base(options)
         {
-
+            ChangeTracker.LazyLoadingEnabled = false;
         }
 
        public DbSet<License> Licenses { get; set; }
