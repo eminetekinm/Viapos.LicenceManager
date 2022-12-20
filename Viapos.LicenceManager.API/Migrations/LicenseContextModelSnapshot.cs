@@ -33,6 +33,12 @@ namespace Viapos.LicenceManager.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Excutions")
+                        .HasColumnType("int");
+
                     b.Property<int>("LicenseCount")
                         .HasColumnType("int");
 

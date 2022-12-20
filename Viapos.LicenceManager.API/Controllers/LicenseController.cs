@@ -43,7 +43,7 @@ namespace Viapos.LicenceManager.API.Controllers
 
         }
         [HttpPost]
-        public string LicenseAdd(string userLicense)
+        public string LicenseAdd([FromHeader] string userLicense)
         {
             License license = JsonConvert.DeserializeObject<License>(EncrpytionTools.Decyrpt(userLicense));
             APIResponseResult result = new APIResponseResult();
@@ -63,7 +63,7 @@ namespace Viapos.LicenceManager.API.Controllers
             }
         }
         [HttpPost]
-        public string DemoLicense(string userLicense)
+        public string DemoLicense([FromHeader] string userLicense)
         {
             License license = CheckLicense(userLicense);
             APIResponseResult result = new APIResponseResult();
@@ -85,8 +85,21 @@ namespace Viapos.LicenceManager.API.Controllers
                 }
                 else
                 {
-                    result.ReturnType = ReturnType.Confirm;
-                    result.value = $"Demo Lisansınızı {license.CreatedTime.AddDays(30).ToShortDateString()} Tarihine Kadar Kullanabilirsiniz";
+                    if (license.Excutions > 1)
+                    {
+                        result.ReturnType = ReturnType.Error;
+                        result.value = $"Programın Maximum Çalıştırılma Ssüresini Aştınız";
+
+                    }
+                    else
+                    {
+                        license.Excutions++;
+                        _context.Licenses.Update(license);
+                        _context.SaveChanges();
+                        result.ReturnType = ReturnType.Confirm;
+                        result.value = $"Demo Lisansınızı {license.CreatedTime.AddDays(30).ToShortDateString()} Tarihine Kadar Kullanabilirsiniz";
+                       
+                    }
 
                 }
             }
@@ -97,7 +110,7 @@ namespace Viapos.LicenceManager.API.Controllers
         {
             License license = JsonConvert.DeserializeObject<License>(EncrpytionTools.Decyrpt(userLicense));
             List<SystemInfo> systemInfos = license.SystemInfos.ToList();
-            License matchingLicense = _context.Licenses.Include(c => c.SystemInfos)
+            License matchingLicense = _context.Licenses.Include(c => c.SystemInfos).AsEnumerable()
                 .FirstOrDefault(c => c.SystemInfos.Intersect(systemInfos, new SystemInfoEquilityComparer()).Count() > 3);
             return matchingLicense;
         }

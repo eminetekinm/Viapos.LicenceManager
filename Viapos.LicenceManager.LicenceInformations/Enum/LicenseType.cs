@@ -9,6 +9,7 @@ namespace Viapos.LicenceManager.LicenceInformations.Enum
     public enum LicenseType
     {
         Single,
-        Server
+        Server,
+        Demo
     }
 }

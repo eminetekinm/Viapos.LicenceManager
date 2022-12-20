@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.XtraEditors;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -16,11 +17,13 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
     {
         private readonly Tables.License license;
         List<SystemInfo> systemInfo = new List<SystemInfo>();
-        private bool confirmLicense = false;
+        public readonly bool confirmLicense = false;
+        public readonly bool LicenseFileExist = false;
         public LicenceConfirmation()
         {
             if (File.Exists(Application.StartupPath + "\\license.lic"))
             {
+                LicenseFileExist = true;
                 string json = EncrpytionTools.Decyrpt(File.ReadAllText(Application.StartupPath + "\\license.lic"));
                 license = JsonConvert.DeserializeObject<Tables.License>(json);
                 LoadSystemInfo();
@@ -30,18 +33,24 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
                 {
                     try
                     {
-                        License onlineLicense = GetOnlineLicense(license.Id);
+                        APIResponseResult result = GetOnlineLicense(license.Id);
 
-
-                        for (int i = 0; i < 6; i++)
+                        if (result.ReturnType == ReturnType.Confirm)
                         {
-                            var infoType = license.SystemInfos.ToList()[i].InfoType;
 
-                            if (onlineLicense.SystemInfos.ToList()[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
+                            License onlineLicense = JsonConvert.DeserializeObject<License>(result.value.ToString());
+
+                            for (int i = 0; i < 6; i++)
                             {
-                                onlineConfirmedInfo += 1;
+                                var infoType = license.SystemInfos.ToList()[i].InfoType;
+
+                                if (onlineLicense.SystemInfos.ToList()[i].Info == systemInfo.Where(c => c.InfoType == infoType).FirstOrDefault().Info)
+                                {
+                                    onlineConfirmedInfo += 1;
+                                }
                             }
                         }
+
                     }
 
                     catch (Exception)
@@ -67,11 +76,16 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
                 }
                 if (confirmedInfo > 3)
                 {
-                    if (license.OnlineLicense != OnlineLicenseControl.Required && onlineLicenseError)
+                    if (license.OnlineLicense == OnlineLicenseControl.Required && onlineLicenseError)
                     {
                         confirmLicense = false;
                         return;
 
+                    }
+                    if (license.OnlineLicense == OnlineLicenseControl.Optional && onlineLicenseError)
+                    {
+                        confirmLicense = true;
+                        return;
                     }
                     if (license.OnlineLicense != OnlineLicenseControl.None && !onlineLicenseError)
                     {
@@ -93,6 +107,10 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
 
                 }
             }
+            else
+            {
+                LicenseFileExist = false;
+            }
 
         }
 
@@ -105,35 +123,35 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.BaseBoard,
-                Info = JsonConvert.SerializeObject(info.GetBaseBoardInfo())
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetBaseBoardInfo()))
             });
 
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.Bios,
-                Info = JsonConvert.SerializeObject(info.GetBiosInfo())
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetBiosInfo()))
             });
 
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.Cpu,
-                Info = JsonConvert.SerializeObject(info.GetCpuInfo())
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetCpuInfo()))
             });
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.Network,
-                Info = JsonConvert.SerializeObject(info.GetNetworkList().FirstOrDefault())
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetNetworkList().FirstOrDefault()))
             });
 
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.DiskDrive,
-                Info = JsonConvert.SerializeObject(drive)
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(drive))
             });
             systemInfo.Add(new SystemInfo
             {
                 InfoType = SystemInfoEnum.OSystem,
-                Info = JsonConvert.SerializeObject(info.GetOSystemInfo())
+                Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetOSystemInfo()))
             });
 
         }
@@ -159,29 +177,130 @@ namespace Viapos.LicenceManager.LicenceInformations.Maneger
         {
             return license.LicenseCount;
         }
-        public License GetOnlineLicense(Guid id)
+        public APIResponseResult GetOnlineLicense(Guid id)
         {
-            RestClient client = new RestClient("http://localhost:5051");
-            RestRequest request = new RestRequest("api/license/getlisence");
-            request.AddParameter("id", id);
-
-            var response = client.Get(request);
-            //string content = response.Content;
-            var result = JsonConvert.DeserializeObject<APIResponseResult>(EncrpytionTools.Decyrpt(response.Content.Trim('\"')));
-
-            if (result.ReturnType == ReturnType.Error)
+            try
             {
-                MessageBox.Show(result.value.ToString());
+                RestClient client = new RestClient("http://localhost:5051");
+                RestRequest request = new RestRequest("api/license/getlisence");
+                request.AddParameter("id", id);
 
+                var response = client.Get(request);
+
+                var result = JsonConvert.DeserializeObject<APIResponseResult>(EncrpytionTools.Decyrpt(response.Content.Trim('\"')));
+
+                return result;
 
             }
-            else if (result.ReturnType == ReturnType.Confirm)
+            catch (Exception e)
             {
-                License returnLicense = JsonConvert.DeserializeObject<License>(result.value.ToString());
-                return returnLicense;
+
+                APIResponseResult result = new APIResponseResult
+                {
+                    ReturnType = ReturnType.Error,
+                    value = "Bağlantı Hatası"
+                };
+
             }
-            return null;
+
         }
 
     }
+    public APIResponseResult LicenseAdd(License license)
+    {
+        var json = JsonConvert.SerializeObject(license);
+        RestClient client = new RestClient("http://localhost:5051");
+        RestRequest request = new RestRequest("api/license/licenseAdd");
+        request.AddParameter("userLicense", EncrpytionTools.Encyrpt(json), ParameterType.HttpHeader);
+        var response = client.Post(request);
+        var content = response.Content.Trim('\"');
+        var result = JsonConvert.DeserializeObject<APIResponseResult>(EncrpytionTools.Decyrpt(content));
+        return result;
+    }
+    public APIResponseResult DemoLicenseCheck(License license)
+    {
+        var json = JsonConvert.SerializeObject(license);
+        RestClient client = new RestClient("http://localhost:5051");
+        RestRequest request = new RestRequest("api/license/demoLicense");
+        request.AddParameter("userLicense", EncrpytionTools.Encyrpt(json), ParameterType.HttpHeader);
+        var response = client.Post(request);
+        var content = response.Content.Trim('\"');
+        var result = JsonConvert.DeserializeObject<APIResponseResult>(EncrpytionTools.Decyrpt(content));
+        return result;
+    }
+    public License LisenceCreat(LicenseType licenseType, string userName, string company, OnlineLicenseControl onlineLicense, List<int> modules, int licenseCount = 1)
+    {
+        License lisans = new License();
+        LicenceInformations.Maneger.SystemInformations info = new LicenceInformations.Maneger.SystemInformations();
+        DiskDrive drive = info.GetDiskList().FirstOrDefault(
+            c => c.PartitionName == Application.StartupPath.Substring(0, 3));
+
+        lisans.Id = Guid.NewGuid();
+        lisans.UserName = userName;
+        lisans.Company = company;
+        lisans.OnlineLicense = onlineLicense;
+        lisans.LicenseCount = licenseCount;
+        lisans.CreatedTime = DateTime.Now;
+
+        for (int i = 0; i < modules.Count; i++)
+        {
+            lisans.Modules.Add(new Module
+            {
+                ModuleTypeEnum = (ModuleTypeEnum)i,
+                LicenseId = lisans.Id,
+                Id = Guid.NewGuid()
+            }); ;
+        }
+
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            Id = Guid.NewGuid(),
+            LicenseId = lisans.Id,
+            InfoType = SystemInfoEnum.BaseBoard,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetBaseBoardInfo()))
+
+        });
+
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            InfoType = SystemInfoEnum.Bios,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetBiosInfo()))
+        });
+
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            InfoType = SystemInfoEnum.Cpu,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetCpuInfo()))
+        });
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            InfoType = SystemInfoEnum.Network,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetNetworkList().FirstOrDefault()))
+        });
+
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            InfoType = SystemInfoEnum.DiskDrive,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(drive))
+        });
+        lisans.SystemInfos.Add(new SystemInfo
+        {
+            InfoType = SystemInfoEnum.OSystem,
+            Info = Md5Hash.HashMd5(JsonConvert.SerializeObject(info.GetOSystemInfo()))
+        });
+
+        return lisans;
+    }
+
+    public void LicenseFileCreat(License license)
+    {
+        var json = JsonConvert.SerializeObject(license);
+        XtraSaveFileDialog dialog = new XtraSaveFileDialog();
+        if (dialog.ShowDialog() == DialogResult.OK)
+        {
+            File.WriteAllText(dialog.FileName, EncrpytionTools.Encyrpt(json));
+        }
+    }
+
+}
 }

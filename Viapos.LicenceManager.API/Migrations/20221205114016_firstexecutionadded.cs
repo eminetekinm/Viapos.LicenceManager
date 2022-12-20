@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Viapos.LicenceManager.API.Migrations
 {
-    public partial class firtmig : Migration
+    public partial class firstexecutionadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,6 +16,8 @@ namespace Viapos.LicenceManager.API.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LicenseType = table.Column<int>(type: "int", nullable: false),
                     OnlineLicense = table.Column<int>(type: "int", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Excutions = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Company = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LicenseCount = table.Column<int>(type: "int", nullable: false)
@@ -51,7 +53,7 @@ namespace Viapos.LicenceManager.API.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LicenseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InfoType = table.Column<int>(type: "int", nullable: false),
-                    Info = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Info = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {

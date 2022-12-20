@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.XtraDialogs.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -105,6 +106,7 @@
     <Compile Include="Tables\SystemInfo.cs" />
     <Compile Include="Tools\EncrpytionTools.cs" />
     <Compile Include="Tools\Md5Hash.cs" />
+    <Compile Include="Tools\SystemInfoEquilityComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

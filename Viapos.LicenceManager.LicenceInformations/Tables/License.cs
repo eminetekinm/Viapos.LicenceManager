@@ -20,6 +20,8 @@ namespace Viapos.LicenceManager.LicenceInformations.Tables
         public Guid Id { get; set; }
         public LicenseType LicenseType { get; set; }
         public OnlineLicenseControl OnlineLicense { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public int Excutions { get; set; }
 
         [MaxLength(50),Required]
         public string UserName { get; set; }

@@ -44,6 +44,7 @@
             this.txtLisansCount = new DevExpress.XtraEditors.SpinEdit();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.lblSonuc = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUserName.Properties)).BeginInit();
@@ -82,7 +83,7 @@
             this.pictureBox2.Image = global::Viapos.LicenceManager.LicenceCreater.Properties.Resources.lisans_p21;
             this.pictureBox2.Location = new System.Drawing.Point(352, 60);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(212, 74);
+            this.pictureBox2.Size = new System.Drawing.Size(212, 143);
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
             // 
@@ -94,7 +95,7 @@
             this.pictureBox1.Image = global::Viapos.LicenceManager.LicenceCreater.Properties.Resources.lisans_p11;
             this.pictureBox1.Location = new System.Drawing.Point(338, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(212, 74);
+            this.pictureBox1.Size = new System.Drawing.Size(212, 143);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -166,7 +167,6 @@
             this.chkClientButton.Size = new System.Drawing.Size(148, 89);
             this.chkClientButton.TabIndex = 9;
             this.chkClientButton.Text = "CLİENT LİSANS";
-            this.chkClientButton.CheckedChanged += new System.EventHandler(this.chkClientButton_CheckedChanged);
             // 
             // chkServerButton
             // 
@@ -194,7 +194,7 @@
             // txtLisansCount
             // 
             this.txtLisansCount.EditValue = new decimal(new int[] {
-            0,
+            1,
             0,
             0,
             0});
@@ -203,6 +203,16 @@
             this.txtLisansCount.Name = "txtLisansCount";
             this.txtLisansCount.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtLisansCount.Properties.MaxValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.txtLisansCount.Properties.MinValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.txtLisansCount.Size = new System.Drawing.Size(125, 24);
             this.txtLisansCount.TabIndex = 10;
             // 
@@ -229,13 +239,21 @@
             "Zorunlu"});
             this.comboBoxEdit1.Size = new System.Drawing.Size(125, 22);
             this.comboBoxEdit1.TabIndex = 12;
-            this.comboBoxEdit1.SelectedIndexChanged += new System.EventHandler(this.comboBoxEdit1_SelectedIndexChanged);
+            // 
+            // lblSonuc
+            // 
+            this.lblSonuc.Location = new System.Drawing.Point(35, 495);
+            this.lblSonuc.Name = "lblSonuc";
+            this.lblSonuc.Size = new System.Drawing.Size(75, 16);
+            this.lblSonuc.TabIndex = 13;
+            this.lblSonuc.Text = "labelControl1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(592, 479);
+            this.ClientSize = new System.Drawing.Size(592, 548);
+            this.Controls.Add(this.lblSonuc);
             this.Controls.Add(this.comboBoxEdit1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtLisansCount);
@@ -262,6 +280,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLisansCount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -281,6 +300,7 @@
         private DevExpress.XtraEditors.SpinEdit txtLisansCount;
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
+        private DevExpress.XtraEditors.LabelControl lblSonuc;
     }
 }
 

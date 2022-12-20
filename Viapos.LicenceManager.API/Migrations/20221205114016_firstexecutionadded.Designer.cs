@@ -12,8 +12,8 @@ using Viapos.LicenceManager.API.Data;
 namespace Viapos.LicenceManager.API.Migrations
 {
     [DbContext(typeof(LicenseContext))]
-    [Migration("20221123124128_Infomaxlenhgtrefresh")]
-    partial class Infomaxlenhgtrefresh
+    [Migration("20221205114016_firstexecutionadded")]
+    partial class firstexecutionadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,12 @@ namespace Viapos.LicenceManager.API.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Excutions")
+                        .HasColumnType("int");
 
                     b.Property<int>("LicenseCount")
                         .HasColumnType("int");
